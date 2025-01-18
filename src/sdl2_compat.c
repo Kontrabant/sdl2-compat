@@ -7138,18 +7138,9 @@ SDL_SetWindowModalFor(SDL_Window *modal_window, SDL_Window *parent_window)
         SDL3_SetError("Invalid window");
         return -1;
     }
-    if (SDL3_GetWindowFlags(modal_window) & SDL_WINDOW_MODAL) {
-        SDL3_SetWindowModal(modal_window, false);
-    }
-    if (SDL3_SetWindowParent(modal_window, parent_window)) {
-        int ret = 0;
-        if (parent_window) {
-            ret = SDL3_SetWindowModal(modal_window, true) ? 0 : -1;
-        }
-        return ret;
-    }
 
-    return -1;
+    /* Despite the name, this function only set and cleared the parent window in SDL2. */
+    return SDL3_SetWindowParent(modal_window, parent_window) ? 0 : -1;
 }
 
 SDL_DECLSPEC void SDLCALL
