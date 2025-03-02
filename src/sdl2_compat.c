@@ -7672,8 +7672,8 @@ SDL_SetWindowDisplayMode(SDL_Window *window, const SDL2_DisplayMode *mode)
         result = SDL3_SetPointerProperty(SDL3_GetWindowProperties(window), PROP_WINDOW_FULLSCREEN_MODE, NULL) ? 0 : -1;
     }
 
-    /* If're we're in full-screen exclusive mode now, apply the new display mode */
-    if ((SDL3_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN) && SDL3_GetWindowFullscreenMode(window)) {
+    /* If're we're in full-screen mode now, apply the new display mode */
+    if (SDL3_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN) {
         result = ApplyFullscreenMode(window);
     }
 
