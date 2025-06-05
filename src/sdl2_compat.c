@@ -428,7 +428,7 @@ static char loaderror[256];
     }
 #elif defined(SDL_PLATFORM_UNIX)
     #include <dlfcn.h>
-    #define SDL3_LIBNAME "libSDL3.so.0"
+    #define SDL3_LIBNAME "/home/franz/Documents/sdl-git/cmake-build-debug/SDL/libSDL3.so.0"
     static void *Loaded_SDL3 = NULL;
     #define LoadSDL3Library() ((Loaded_SDL3 = dlopen(SDL3_LIBNAME, RTLD_LOCAL|RTLD_NOW)) != NULL)
     #define LookupSDL3Sym(sym) dlsym(Loaded_SDL3, sym)
@@ -9248,18 +9248,8 @@ SDL_SetWindowModalFor(SDL_Window *modal_window, SDL_Window *parent_window)
         SDL3_SetError("Invalid window");
         return -1;
     }
-    if (SDL3_GetWindowFlags(modal_window) & SDL_WINDOW_MODAL) {
-        SDL3_SetWindowModal(modal_window, false);
-    }
-    if (SDL3_SetWindowParent(modal_window, parent_window)) {
-        int ret = 0;
-        if (parent_window) {
-            ret = SDL3_SetWindowModal(modal_window, true) ? 0 : -1;
-        }
-        return ret;
-    }
 
-    return -1;
+    return SDL3_SetWindowParent(modal_window, parent_window) ? 0 : -1;
 }
 
 SDL_DECLSPEC void SDLCALL
